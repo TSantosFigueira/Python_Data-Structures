@@ -4,6 +4,7 @@ class Node():
 	def __init__(self, data):
 		self.data = data
 		self.next = None
+		self.previous = None
 
 class LinkedList():
 	def __init__(self):
@@ -18,39 +19,35 @@ class LinkedList():
 			self.length = 1
 		else:
 			self.tail.next = new_node
+			new_node.previous = self.tail
 			self.tail = new_node
 			self.length += 1
 
 	def prepend(self, data):
 		new_node = Node(data)
-		self.head.next = new_node
+		new_node.next = self.head
+		self.head.previous = new_node
 		self.head = new_node
 		self.length += 1
 
 	def insertAt(self, index, data):
-		new_node = Node(data)
-		i = 0
-		temp = self.head
-		
+		new_node = Node(data)	
 		if index >= self.length:
 			self.append(data)
 			return
 		if index == 0:
 			self.prepend(data)
 			return
-		
-		while i < self.length:
-			if i == index - 1:
-				temp.next, new_node.next = new_node, temp.next
-				self.length += 1
-				break
-			temp = temp.next
-			i += 1
+		else:
+			leader = self.traverseToIndex(index - 1)
+			temp = leader.next
+			leader.next = new_node
+			new_node.next = temp
+			new_node.previous = leader
+			temp.previous = new_node
+			self.length += 1
 
 	def removeAt(self, index):
-		temp = self.head
-		i = 0
-
 		if index > self.length:
 			print("Out of bounds")
 			return
@@ -59,21 +56,27 @@ class LinkedList():
 			self.head = self.head.next
 			self.length -= 1
 			return
+		# last element of the linked list
+		if index == self.length - 1:
+			 self.tail = self.tail.previous
+			 self.tail.next = None
+			 self.length -= 1
+			 return
+		
+		leader = self.traverseToIndex(index - 1)
+		unwanted_node = leader.next
+		temp = unwanted_node.next
+		leader.next = temp
+		temp.previous = leader
+		self.length -= 1
 
-		while(i < self.length):
-			# last element of the linked list
-			if i == self.length - 1:
-				temp.next = None
-				self.tai = temp
-				self.length -= 1
-				break
-			# found element to delete
-			if i == index - 1:
-				temp.next = temp.next.next
-				self.length -= 1
-				break
-			i += 1
+	def traverseToIndex(self, index):
+		temp = self.head
+		i = 0
+		while i != index:
 			temp = temp.next
+			i += 1
+		return temp
 
 	def printLinkedList(self):
 		temp = self.head
