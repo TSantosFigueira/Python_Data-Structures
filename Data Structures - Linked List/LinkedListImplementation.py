@@ -81,7 +81,17 @@ class LinkedList():
 			print(temp.data, end=', ')
 			temp = temp.next
 		print()
-		print('Length = ', self.length)			
+		print('Length = ', self.length)		
+
+	def reverseLinkedList(self):
+		previous = None
+		current = self.head
+		while(current is not None):
+			next = current.next
+			current.next = previous
+			previous = current
+			current = next
+		self.head = previous	
 
 
 
@@ -92,6 +102,8 @@ l.append(6)
 l.insertAt(1, 99)
 l.removeAt(0)
 l.removeAt(1)
+l.printLinkedList()
+l.reverseLinkedList()
 l.printLinkedList()
 
 

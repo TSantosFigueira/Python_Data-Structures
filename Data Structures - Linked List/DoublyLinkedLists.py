@@ -87,14 +87,11 @@ class LinkedList():
 		print('Length = ', self.length)			
 
 
-
 l = LinkedList()
 l.append(10)
 l.append(5)
 l.append(6)
 l.insertAt(1, 99)
-l.removeAt(0)
-l.removeAt(1)
 l.printLinkedList()
 
 
