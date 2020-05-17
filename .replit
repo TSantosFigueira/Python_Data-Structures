@@ -1,2 +1,2 @@
 language = "python3"
-run = "python3 LinkedList-Stack.py"
+run = "python3 Array-Stack.py"
